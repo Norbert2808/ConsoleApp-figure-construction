@@ -28,6 +28,7 @@ namespace Project1
                         Helpers.DeleteHelper(ref consoleShapes);
                         break;
                     case "3":
+                        Helpers.MoveHelper(ref consoleShapes);
                         break;
                     case "4":
                         break;

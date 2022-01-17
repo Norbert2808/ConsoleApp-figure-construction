@@ -36,7 +36,7 @@
         {
             var startColor = Console.ForegroundColor;
             Console.ForegroundColor = Color;
-            Console.SetCursorPosition(StartPoint!.X, StartPoint.Y);
+            Console.SetCursorPosition(StartPoint.X, StartPoint.Y);
             var startX = StartPoint.X;
             var startY = StartPoint.Y;
             for (var i = 0; i < Width; i++)
@@ -69,5 +69,38 @@
 
         }
 
+        public override void AddInListForFile(ref List<List<char>> scene)
+        {
+            var posX = StartPoint.X;
+            var posY = StartPoint.Y;
+            var startX = StartPoint.X;
+            var startY = StartPoint.Y;
+            for (var i = 0; i < Width; i++)
+            {
+                Validation.ValidAddInList(Symbol, ref scene, ref posX, ref posY);
+            }
+            posY++;
+
+            for (var i = 1; i < Height - 1; i++)
+            {
+                posX = startX;
+                Validation.ValidAddInList(Symbol, ref scene, ref posX, ref posY);
+                for (var j = 1; j < Width - 1; j++)
+                {
+                    if (Filling)
+                        Validation.ValidAddInList(Symbol, ref scene, ref posX, ref posY);
+                }
+                posX = startX + Width - 1;
+                posY = startY + i;
+                Validation.ValidAddInList(Symbol, ref scene, ref posX, ref posY);
+                posY++;
+            }
+            posX = startX;
+            for (var i = 0; i < Width; i++)
+            {
+                Validation.ValidAddInList(Symbol, ref scene, ref posX, ref posY);
+            }
+            posY++;
+        }
     }
 }

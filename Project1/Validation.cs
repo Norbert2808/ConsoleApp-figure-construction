@@ -1,5 +1,6 @@
 ﻿
 using Project1.Shapes;
+using static Project1.Helpers;
 
 namespace Project1
 {
@@ -38,7 +39,6 @@ namespace Project1
             var b = GetLenght(cx, cy, ax, ay);
             var c = GetLenght(ax, ay, bx, by);
             // check rectangular triangle
-            var aa = Math.Round((a * a) - (b * b) + (c * c));
             if (Math.Round((a * a) + (c * c) - (b * b)) != 0 && Math.Round((a * a) + (b * b) - (c * c)) != 0
                 && Math.Round((c * c) + (b * b) - (a * a)) != 0)
             {
@@ -88,6 +88,17 @@ namespace Project1
             return true;
         }
 
+        public static bool MoveValid(string el, int count, out int index, out int number, out Side side)
+        {
+            index = default;
+            number = default;
+            side = Side.Left;
+
+            var args = el.Split(", ");
+            return args.Length == 3 && UintValid(args[0], out index) && index < count &&
+                UintValid(args[2], out number) && Enum.TryParse(args[1], true, out side);
+        }
+
         private static double GetLenght(int x1, int y1, int x2, int y2)
         {
             return Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));
@@ -99,7 +110,7 @@ namespace Project1
         }
 
         private static readonly int _topBoundary = Menu.menuH + Menu.sceneH - 1;
-        private static readonly int _leftBoundary = Menu.menuW - 1;
+        private static readonly int _rightBoundary = Menu.menuW - 1;
         public static void ValidDrawing(char symbol, bool ValidDrawing = true)
         {
             if (!ValidDrawing)
@@ -109,13 +120,25 @@ namespace Project1
             }
 
             (var left, var top) = Console.GetCursorPosition();
-            if (top >= _topBoundary || left >= _leftBoundary)
+            if (top >= _topBoundary || left >= _rightBoundary)
             {
                 return;
             }
             else
             {
                 Console.Write(symbol);
+            }
+        }
+        public static void ValidAddInList(char symbol, ref List<List<char>> scene, ref int posX, ref int posY)
+        {
+            if (posY >= _topBoundary || posX >= _rightBoundary)
+            {
+                return;
+            }
+            else
+            {
+                scene[posY - Menu.startForShape.Y][posX] = symbol;
+                posX++;
             }
         }
     }

@@ -44,5 +44,15 @@ namespace Project1.Shapes
             C.Symbol = Symbol;
             C.Print();
         }
+
+        public override void AddInListForFile(ref List<List<char>> scene)
+        {
+            A.Symbol = Symbol;
+            A.AddInListForFile(ref scene);
+            B.Symbol = Symbol;
+            B.AddInListForFile(ref scene);
+            C.Symbol = Symbol;
+            C.AddInListForFile(ref scene);
+        }
     }
 }

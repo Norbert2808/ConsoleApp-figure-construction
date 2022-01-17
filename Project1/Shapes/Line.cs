@@ -72,5 +72,54 @@ namespace Project1.Shapes
                 PerimeterValue++;
             }
         }
+
+        public void AddInList(int x, int y, ref int posX, ref int posY, ref List<List<char>> scene)
+        {
+            var currentPos = A;
+            posX = A.X;
+            posY = A.Y;
+
+            while (currentPos != B)
+            {
+                currentPos = new ConsolePoint(currentPos.X + x, currentPos.Y + y);
+                posX = StartPoint.X + currentPos.X;
+                posY = StartPoint.Y + currentPos.Y;
+                Console.SetCursorPosition(StartPoint.X + currentPos.X, StartPoint.Y + currentPos.Y);
+                Validation.ValidAddInList(Symbol, ref scene, ref posX, ref posY);
+            }
+        }
+        public override void AddInListForFile(ref List<List<char>> scene)
+        {
+            var posX = Menu.startForShape.X;
+            var posY = Menu.startForShape.Y;
+
+            var x = B.X - A.X;
+            var y = B.Y - A.Y;
+            if (x > 0)
+            {
+                if (y > 0)
+                    AddInList(1, 1, ref posX, ref posY, ref scene);
+                else if (y < 0)
+                    AddInList(1, -1, ref posX, ref posY, ref scene);
+                else
+                    AddInList(1, 0, ref posX, ref posY, ref scene);
+            }
+            else if (x < 0)
+            {
+                if (y > 0)
+                    AddInList(-1, 1, ref posX, ref posY, ref scene);
+                else if (y < 0)
+                    AddInList(-1, -1, ref posX, ref posY, ref scene);
+                else
+                    AddInList(-1, 0, ref posX, ref posY, ref scene);
+            }
+            else
+            {
+                if (y > 0)
+                    AddInList(0, 1, ref posX, ref posY, ref scene);
+                else if (y < 0)
+                    AddInList(0, -1, ref posX, ref posY, ref scene);
+            }
+        }
     }
 }

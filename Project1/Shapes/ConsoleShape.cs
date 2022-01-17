@@ -10,6 +10,7 @@ namespace Project1.Shapes
         public abstract void Print();
         public abstract int Area();
         public abstract int Perimeter();
+        public abstract void AddInListForFile(ref List<List<char>> scene);
 
     }
 }

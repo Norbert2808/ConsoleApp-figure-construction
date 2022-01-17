@@ -156,72 +156,133 @@ namespace Project1
 
         public static void DeleteHelper(ref List<ConsoleShape> cs)
         {
-            string[] args;
+            if (!CheckCount(cs))
+            {
+                var args = new string[]
+                            {
+                            "Delete Shape",
+                            $"Enter index for delete[0;{cs.Count - 1}]",
+                            "if invalid args - back"
+                            };
+                Menu.ClientMenu(args);
+                var mes = Console.ReadLine();
+                if (Validation.UintValid(mes, out var index) && index < cs.Count)
+                {
+                    cs.RemoveAt(index);
+                    Repaint(cs);
+                }
+            }
+
+        }
+
+        public static void SaveHelper(ref List<ConsoleShape> cs)
+        {
+            if (!CheckCount(cs))
+            {
+                //using var fs = new FileStream(_saveFileName, FileMode.OpenOrCreate);
+                using var writer = new StreamWriter(_saveFileName);
+                var scene = new List<List<char>>();
+                for (var i = 0; i < Menu.sceneH - 2; i++)
+                {
+                    scene.Add(Enumerable.Repeat(' ', Menu.menuW - 2).ToList());
+                }
+
+                foreach (var el in cs)
+                    el.AddInListForFile(ref scene);
+
+                for (var i = 0; i < Menu.sceneH - 2; i++)
+                {
+                    for (var j = 0; j < Menu.menuW - 2; j++)
+                    {
+                        writer.Write(scene[i][j]);
+                    }
+                    writer.WriteLine();
+                }
+
+
+                var args = new string[]
+                                {
+                            $"Scene was saved in a file \"{_saveFileName}\"!",
+                            "Press to continue..."
+                                };
+                Menu.ClientMenu(args);
+                _ = Console.ReadLine();
+            }
+        }
+        public enum Side
+        {
+            Left,
+            Right,
+            Up,
+            Down
+        }
+        public static void MoveHelper(ref List<ConsoleShape> cs)
+        {
+            if (!CheckCount(cs))
+            {
+                var args = new string[]
+                            {
+                            "Move Shape",
+                            "Up and to the left you can move the figure only to the border",
+                            "Enter \"index, side, number\"",
+                            $"index - index for delete[0;{cs.Count - 1}]",
+                            "side - enum(Left, Right, Up, Down)",
+                            "number - uint",
+                            "if invalid args - back"
+                            };
+                Menu.ClientMenu(args);
+                var mes = Console.ReadLine();
+                if (Validation.MoveValid(mes, cs.Count, out var index,
+                    out var num, out var side))
+                {
+                    switch (side)
+                    {
+                        case Side.Left:
+                            var newX = Math.Max(cs[index].StartPoint.X - num, 1);
+                            cs[index].StartPoint = new ConsolePoint(newX, cs[index].StartPoint.Y);
+                            break;
+                        case Side.Right:
+                            cs[index].StartPoint += new ConsolePoint(num, 0);
+                            break;
+                        case Side.Up:
+                            var newY = Math.Max(cs[index].StartPoint.Y - num, Menu.menuH + 1);
+                            cs[index].StartPoint = new ConsolePoint(cs[index].StartPoint.X, newY);
+                            break;
+                        case Side.Down:
+                            cs[index].StartPoint += new ConsolePoint(0, num);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    Repaint(cs);
+                }
+            }
+        }
+        private static bool CheckCount(List<ConsoleShape> cs)
+        {
             if (cs.Count == 0)
             {
-                args = new string[]
+                var args = new string[]
                     {
                         "No shapes",
                         "Press to continue..."
                     };
                 Menu.ClientMenu(args);
                 _ = Console.ReadLine();
-                return;
+                return true;
             }
-            else
-            {
-                args = new string[]
-                            {
-                            "Delete Shape",
-                            $"Enter index for delete[0;{cs.Count - 1}]",
-                            "if invalid args - back"
-                            };
-            }
-            Menu.ClientMenu(args);
-            var mes = Console.ReadLine();
-            if (Validation.UintValid(mes, out var index) && index < cs.Count)
-            {
-                cs.RemoveAt(index);
-                Menu.ClearScene();
-                for (var i = 0; i < cs.Count; i++)
-                {
-                    cs[i].Symbol = $"{i}"[0];
-                    cs[i].Print();
-                }
-            }
+            return false;
         }
 
-        public static void SaveHelper(ref List<ConsoleShape> cs)
+        private static void Repaint(List<ConsoleShape> cs)
         {
-            string[] args;
-            if (cs.Count == 0)
+            Menu.ClearScene();
+            for (var i = 0; i < cs.Count; i++)
             {
-                args = new string[]
-                    {
-                        "No shapes",
-                        "Press to continue..."
-                    };
+                cs[i].Symbol = $"{i}"[0];
+                cs[i].Print();
             }
-            else
-            {
-                using var fs = new FileStream(_saveFileName, FileMode.OpenOrCreate);
-                using var writer = new StreamWriter(fs);
-                Console.SetOut(writer);
-                foreach (var el in cs)
-                    el.Print();
-                var standardOutput = new StreamWriter(Console.OpenStandardOutput())
-                {
-                    AutoFlush = true
-                };
-                Console.SetOut(standardOutput);
-                args = new string[]
-                                {
-                            $"Scene was saved in a file \"{_saveFileName}\"!",
-                            "Press to continue..."
-                                };
-            }
-            Menu.ClientMenu(args);
-            _ = Console.ReadLine();
         }
 
     }

@@ -71,5 +71,44 @@
             }
             Console.ForegroundColor = startColor;
         }
+
+        public override void AddInListForFile(ref List<List<char>> scene)
+        {
+            var posX = StartPoint.X;
+            var posY = StartPoint.Y;
+
+            var thickness = 0.5;
+            var rIn = Radius - thickness;
+            var rOut = Radius + thickness;
+
+            for (var y = Radius; y >= -Radius; --y)
+            {
+                for (var x = -Radius; x < rOut; x += 0.5)
+                {
+                    var value = (x * x) + (y * y);
+                    if (Filling)
+                    {
+                        if (value <= rOut * rOut)
+                        {
+                            Validation.ValidAddInList(Symbol, ref scene, ref posX, ref posY);
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        if (value <= rOut * rOut && value >= rIn * rIn)
+                        {
+                            Validation.ValidAddInList(Symbol, ref scene, ref posX, ref posY);
+                            continue;
+                        }
+                    }
+                    posX++;
+                }
+                posY++;
+                posX = StartPoint.X;
+            }
+        }
+
+
     }
 }
