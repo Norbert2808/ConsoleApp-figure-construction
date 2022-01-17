@@ -64,6 +64,9 @@ namespace Project1.Shapes
         {
             PerimeterValue = 0;
             var currentPos = A;
+            Console.SetCursorPosition(StartPoint.X + currentPos.X, StartPoint.Y + currentPos.Y);
+            Validation.ValidDrawing(Symbol);
+            PerimeterValue++;
             while (currentPos != B)
             {
                 currentPos = new ConsolePoint(currentPos.X + x, currentPos.Y + y);
@@ -78,19 +81,17 @@ namespace Project1.Shapes
             A += point;
             B += point;
         }
-
         public void AddInList(int x, int y, ref int posX, ref int posY, ref List<List<char>> scene)
         {
             var currentPos = A;
-            posX = A.X;
-            posY = A.Y;
-
+            posX = StartPoint.X + currentPos.X;
+            posY = StartPoint.Y + currentPos.Y;
+            Validation.ValidAddInList(Symbol, ref scene, ref posX, ref posY);
             while (currentPos != B)
             {
                 currentPos = new ConsolePoint(currentPos.X + x, currentPos.Y + y);
                 posX = StartPoint.X + currentPos.X;
                 posY = StartPoint.Y + currentPos.Y;
-                Console.SetCursorPosition(StartPoint.X + currentPos.X, StartPoint.Y + currentPos.Y);
                 Validation.ValidAddInList(Symbol, ref scene, ref posX, ref posY);
             }
         }

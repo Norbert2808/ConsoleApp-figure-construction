@@ -41,9 +41,12 @@ namespace Project1
                             "Add Circle",
                             "Enter \"d\" for default",
                             "Or enter \"startPosX, startPosY, radius, color, filling\"",
-                            "startPosX, startPosY, radius - uint",
+                            "",
                             "startPosX = 0 && startPosY = 0 - first cell in scene",
+                            "startPos - left top point of the circumscribed square",
                             "down - positive y-axis, right - positive x-axis",
+                            "",
+                            "startPosX, startPosY, radius - uint",
                             "color - enum(Blue, Red, Gray, Magenta, Yellow, DarkGray...)",
                             "filling - bool(true, false)",
                             "if invalid args - back"
@@ -69,9 +72,12 @@ namespace Project1
                             "Add Rectangle",
                             "Enter \"d\" for default",
                             "Or enter \"startPosX, startPosY, width, height, color, filling\"",
-                            "startPosX, startPosY, width, height - uint",
+                            "",
                             "startPosX = 0 && startPosY = 0 - first cell in scene",
                             "down - positive y-axis, right - positive x-axis",
+                            "startPos - left top point",
+                            "",
+                            "startPosX, startPosY, width, height - uint",
                             "color - enum(Blue, Red, Gray, Magenta, Yellow, DarkGray...)",
                             "filling - bool(true, false)",
                             "if invalid args - back"
@@ -81,7 +87,8 @@ namespace Project1
                         Rectangle rectangle;
                         if (addRec == "d")
                         {
-                            rectangle = new Rectangle(symbol, Menu.startForShape + new ConsolePoint(30, 0));
+                            rectangle = new Rectangle(symbol, 
+                                Menu.startForShape + new ConsolePoint(30, 0), filling: true);
                             rectangle.Print();
                             cs.Add(rectangle);
                         }
@@ -95,10 +102,11 @@ namespace Project1
                         args = new string[]
                         {
                             "Add Triangle",
-                            "Сan only add a right-angled isosceles triangle",
+                            "You can only add a right-angled isosceles triangle",
                             "Enter \"d\" for default",
                             "Or enter \"AX, AY, BX, BY, CX, CY, color\"",
                             "down - positive y-axis, right - positive x-axis",
+                            "",
                             "AX, AY, BX, BY, CX, CY - uint",
                             "color - enum(Blue, Red, Gray, Magenta, Yellow, DarkGray...)",
                             "if invalid args - back"
@@ -108,8 +116,8 @@ namespace Project1
                         Triangle triangle;
                         if (addT == "d")
                         {
-                            triangle = new Triangle(symbol, Menu.startForShape + new ConsolePoint(50, 10),
-                                new ConsolePoint(0, 0), new ConsolePoint(10, 10), new ConsolePoint(0, 10));
+                            triangle = new Triangle(symbol, Menu.startForShape,
+                                new ConsolePoint(50, 10), new ConsolePoint(60, 20), new ConsolePoint(50, 20));
                             triangle.Print();
                             cs.Add(triangle);
                         }
@@ -123,13 +131,14 @@ namespace Project1
                         args = new string[]
                         {
                             "Add Line",
-                            "Can only add straight or diagonal line:",
+                            "You can only add straight or diagonal line:",
                             @"     \ | /",
                              "     -   -",
                             @"     / | \",
                             "Enter \"d\" for default",
                             "Or enter \"AX, AY, BX, BY, color\"",
                             "down - positive y-axis, right - positive x-axis",
+                            "",
                             "AX, AY, BX, BY - uint",
                             "color - enum(Blue, Red, Gray, Magenta, Yellow, DarkGray...)",
                             "if invalid args - back"
@@ -213,6 +222,76 @@ namespace Project1
                 _ = Console.ReadLine();
             }
         }
+
+        public static void SortHelper(ref List<ConsoleShape> cs)
+        {
+            if (!CheckCount(cs))
+            {
+                var args = new string[]
+                            {
+                            "Sort Shape",
+                            "You can sort by perimeter(number of boundary symb)/area(number of symb), ascending/descending",
+                            "",
+                            "Enter \"x, y\"",
+                            "x - \"p\" or \"a\"",
+                            "y - \"a\" or \"d\"",
+                            "if invalid args - back"
+                            };
+                Menu.ClientMenu(args);
+                var mes = Console.ReadLine();
+                if (Validation.SortValid(mes, out var prop, out var type))
+                {
+                    if (prop == "p")
+                    {
+                        if (type == "a")
+                            cs.Sort((ConsoleShape a, ConsoleShape b) => a.Perimeter().CompareTo(b.Perimeter()));
+                        else
+                            cs.Sort((ConsoleShape a, ConsoleShape b) => b.Perimeter().CompareTo(a.Perimeter()));
+                    }
+                    else
+                    {
+                        if (type == "a")
+                            cs.Sort((ConsoleShape a, ConsoleShape b) => a.Area().CompareTo(b.Area()));
+                        else
+                            cs.Sort((ConsoleShape a, ConsoleShape b) => b.Area().CompareTo(a.Area()));
+                    }
+                    Repaint(cs);
+                    AddStatistics(cs);
+                }
+            }
+
+        }
+
+        private static void AddStatistics(List<ConsoleShape> cs)
+        {
+            Menu.ClearMenu();
+            var ar = new string[Math.Min(cs.Count + 2, Menu.menuH - 6)];
+            int i;
+            ar[0] = "---STATISTICS---";
+            for (i = 1; i < cs.Count + 1 && i < ar.Length + 1; i++)
+            {
+                var typeShape = string.Empty;
+                if (cs[i - 1] is Circle)
+                    typeShape = nameof(Circle);
+                else if (cs[i - 1] is Rectangle)
+                    typeShape = nameof(Rectangle);
+                else if (cs[i - 1] is Triangle)
+                    typeShape = nameof(Triangle);
+                else if (cs[i - 1] is Line)
+                    typeShape = nameof(Line);
+                ar[i] = $"{i - 1} -- {cs[i - 1].Color} {typeShape}, area - {cs[i - 1].Area()}, " +
+                    $"perimeter - {cs[i - 1].Perimeter()}";
+            }
+            if (cs.Count > Menu.menuH - 5)
+            {
+                ar[i] = "...";
+                i++;
+            }
+            ar[i] = "Press to continue...";
+            Menu.ClientMenu(ar);
+            _ = Console.ReadLine();
+        }
+
         public enum Side
         {
             Left,
@@ -283,7 +362,7 @@ namespace Project1
             {
                 case Side.Left:
                     var minXInLine = Math.Min((el as Line).A.X, (el as Line).B.X);
-                    var change = minXInLine - num > 1 ? -num : -minXInLine + 1;
+                    var change = minXInLine - num > 1 ? -num : -minXInLine;
                     (cs[index] as Line).ChangeForMoving(new ConsolePoint(change, 0));
                     break;
                 case Side.Right:
@@ -291,7 +370,7 @@ namespace Project1
                     break;
                 case Side.Up:
                     var minYInLine = Math.Min((el as Line).A.Y, (el as Line).B.Y);
-                    change = minYInLine - num > Menu.menuH + 1 ? -num : -minYInLine + Menu.menuH + 1;
+                    change = minYInLine - num > 1 ? -num : -minYInLine;
                     (cs[index] as Line).ChangeForMoving(new ConsolePoint(0, change));
                     break;
                 case Side.Down:
@@ -312,7 +391,7 @@ namespace Project1
                 case Side.Left:
                     var minXInTri = Math.Min(Math.Min((el as Triangle).AP.X, (el as Triangle).BP.X),
                         (el as Triangle).CP.X);
-                    var change = minXInTri - num > 1 ? -num : -minXInTri + 1;
+                    var change = minXInTri - num > 1 ? -num : -minXInTri;
                     (cs[index] as Triangle).ChangeForMoving(new ConsolePoint(change, 0));
                     break;
                 case Side.Right:
@@ -321,7 +400,7 @@ namespace Project1
                 case Side.Up:
                     var minYInTri = Math.Min(Math.Min((el as Triangle).AP.Y, (el as Triangle).BP.Y),
                         (el as Triangle).CP.Y);
-                    change = minYInTri - num > Menu.menuH + 1 ? -num : -minYInTri + Menu.menuH + 1;
+                    change = minYInTri - num > 1 ? -num : -minYInTri;
                     (cs[index] as Triangle).ChangeForMoving(new ConsolePoint(0, change));
                     break;
                 case Side.Down:

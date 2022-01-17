@@ -49,6 +49,8 @@
                         {
                             Validation.ValidDrawing(Symbol);
                             AreaValue++;
+                            if (value >= rIn * rIn)
+                                PerimeterValue++;
                             continue;
                         }
                     }

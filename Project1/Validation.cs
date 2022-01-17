@@ -81,7 +81,7 @@ namespace Project1
             {
                 return false;
             }
-            if (Math.Abs(ax - bx) != Math.Abs(ay - by) && ax - bx != 0 && bx - by != 0)
+            if (Math.Abs(ax - bx) != Math.Abs(ay - by) && ax - bx != 0 && ay - by != 0)
                 return false;
             line = new Line(symbol, Menu.startForShape, new ConsolePoint(ax, ay),
                 new ConsolePoint(bx, by), color);
@@ -99,6 +99,21 @@ namespace Project1
                 UintValid(args[2], out number) && Enum.TryParse(args[1], true, out side);
         }
 
+        public static bool SortValid(string el, out string prop, out string type)
+        {
+            prop = default;
+            type = default;
+
+            var args = el.Split(", ");
+            if (args.Length != 2)
+                return false;
+            if ((args[0] != "a" && args[0] != "p") || (args[1] != "a" && args[1] != "d"))
+                return false;
+            prop = args[0];
+            type = args[1];
+            return true;
+        }
+
         private static double GetLenght(int x1, int y1, int x2, int y2)
         {
             return Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));
@@ -110,7 +125,7 @@ namespace Project1
         }
 
         private static readonly int _topBoundary = Menu.menuH + Menu.sceneH - 1;
-        private static readonly int _rightBoundary = Menu.menuW - 1;
+        private static readonly int _rightBoundary = Menu.menuW - 2;
         public static void ValidDrawing(char symbol, bool ValidDrawing = true)
         {
             if (!ValidDrawing)

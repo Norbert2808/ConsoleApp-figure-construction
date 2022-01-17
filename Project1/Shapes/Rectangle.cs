@@ -19,8 +19,8 @@
             Height = height;
             Filling = filling;
             ValidDrawing = true;
-            AreaValue = Width * Height;
             PerimeterValue = 2 * (Width + Height);
+            AreaValue = filling ? Width * Height : PerimeterValue;
         }
         public override int Area()
         {

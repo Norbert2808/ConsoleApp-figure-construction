@@ -31,6 +31,7 @@ namespace Project1
                         Helpers.MoveHelper(ref consoleShapes);
                         break;
                     case "4":
+                        Helpers.SortHelper(ref consoleShapes);
                         break;
                     case "5":
                         Helpers.SaveHelper(consoleShapes);

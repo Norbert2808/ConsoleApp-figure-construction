@@ -33,7 +33,8 @@ namespace Project1.Shapes
             HypotenuseLenght = Math.Max(Math.Max(al, bl), cl);
             CathetusLenght = Math.Min(Math.Min(al, bl), cl);
             // arithmetic progression from cathetus to 1 - count of symbols
-            return CathetusLenght * (CathetusLenght + 1) / 2;
+            //return CathetusLenght * (CathetusLenght + 1) / 2;
+            return Perimeter();
         }
 
         public override int Perimeter()
