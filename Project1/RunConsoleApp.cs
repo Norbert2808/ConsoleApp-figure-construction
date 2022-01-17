@@ -33,7 +33,7 @@ namespace Project1
                     case "4":
                         break;
                     case "5":
-                        Helpers.SaveHelper(ref consoleShapes);
+                        Helpers.SaveHelper(consoleShapes);
                         break;
                     default:
                         key = "exit";

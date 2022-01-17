@@ -2,9 +2,3 @@
 
 // At the start of the program please put fullscreen
 RunConsoleApp.Run();
-//Console.ReadKey();
-
-
-
-
-

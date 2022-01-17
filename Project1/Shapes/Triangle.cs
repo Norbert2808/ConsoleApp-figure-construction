@@ -6,6 +6,9 @@ namespace Project1.Shapes
         public Line A { get; set; }
         public Line B { get; set; }
         public Line C { get; set; }
+        public ConsolePoint AP { get; set; }
+        public ConsolePoint BP { get; set; }
+        public ConsolePoint CP { get; set; }
         public int HypotenuseLenght { get; set; }
         public int CathetusLenght { get; set; }
 
@@ -15,6 +18,9 @@ namespace Project1.Shapes
             Symbol = symbol;
             StartPoint = startPos;
             Color = color;
+            AP = a;
+            BP = b;
+            CP = c;
             A = new Line(symbol, startPos, a, b, color);
             B = new Line(symbol, startPos, b, c, color);
             C = new Line(symbol, startPos, c, a, color);
@@ -43,6 +49,15 @@ namespace Project1.Shapes
             B.Print();
             C.Symbol = Symbol;
             C.Print();
+        }
+        public void ChangeForMoving(ConsolePoint point)
+        {
+            AP += point;
+            BP += point;
+            CP += point;
+            A = new Line(Symbol, StartPoint, AP, BP, Color);
+            B = new Line(Symbol, StartPoint, BP, CP, Color);
+            C = new Line(Symbol, StartPoint, CP, AP, Color);
         }
 
         public override void AddInListForFile(ref List<List<char>> scene)

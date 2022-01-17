@@ -73,6 +73,12 @@ namespace Project1.Shapes
             }
         }
 
+        public void ChangeForMoving(ConsolePoint point)
+        {
+            A += point;
+            B += point;
+        }
+
         public void AddInList(int x, int y, ref int posX, ref int posY, ref List<List<char>> scene)
         {
             var currentPos = A;

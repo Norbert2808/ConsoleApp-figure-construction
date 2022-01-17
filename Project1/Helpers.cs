@@ -43,8 +43,9 @@ namespace Project1
                             "Or enter \"startPosX, startPosY, radius, color, filling\"",
                             "startPosX, startPosY, radius - uint",
                             "startPosX = 0 && startPosY = 0 - first cell in scene",
-                            "color - enum(Blue, Red, Gray, Green ...)",
-                            "filling - bool",
+                            "down - positive y-axis, right - positive x-axis",
+                            "color - enum(Blue, Red, Gray, Magenta, Yellow, DarkGray...)",
+                            "filling - bool(true, false)",
                             "if invalid args - back"
                         };
                         Menu.ClientMenu(args);
@@ -70,8 +71,9 @@ namespace Project1
                             "Or enter \"startPosX, startPosY, width, height, color, filling\"",
                             "startPosX, startPosY, width, height - uint",
                             "startPosX = 0 && startPosY = 0 - first cell in scene",
-                            "color - enum(Blue, Red, Gray, Green ...)",
-                            "filling - bool",
+                            "down - positive y-axis, right - positive x-axis",
+                            "color - enum(Blue, Red, Gray, Magenta, Yellow, DarkGray...)",
+                            "filling - bool(true, false)",
                             "if invalid args - back"
                         };
                         Menu.ClientMenu(args);
@@ -96,8 +98,9 @@ namespace Project1
                             "Сan only add a right-angled isosceles triangle",
                             "Enter \"d\" for default",
                             "Or enter \"AX, AY, BX, BY, CX, CY, color\"",
+                            "down - positive y-axis, right - positive x-axis",
                             "AX, AY, BX, BY, CX, CY - uint",
-                            "color - enum(Blue, Red, Gray, Green ...)",
+                            "color - enum(Blue, Red, Gray, Magenta, Yellow, DarkGray...)",
                             "if invalid args - back"
                         };
                         Menu.ClientMenu(args);
@@ -126,8 +129,9 @@ namespace Project1
                             @"     / | \",
                             "Enter \"d\" for default",
                             "Or enter \"AX, AY, BX, BY, color\"",
+                            "down - positive y-axis, right - positive x-axis",
                             "AX, AY, BX, BY - uint",
-                            "color - enum(Blue, Red, Gray, Green ...)",
+                            "color - enum(Blue, Red, Gray, Magenta, Yellow, DarkGray...)",
                             "if invalid args - back"
                         };
                         Menu.ClientMenu(args);
@@ -175,7 +179,7 @@ namespace Project1
 
         }
 
-        public static void SaveHelper(ref List<ConsoleShape> cs)
+        public static void SaveHelper(List<ConsoleShape> cs)
         {
             if (!CheckCount(cs))
             {
@@ -225,7 +229,7 @@ namespace Project1
                             "Move Shape",
                             "Up and to the left you can move the figure only to the border",
                             "Enter \"index, side, number\"",
-                            $"index - index for delete[0;{cs.Count - 1}]",
+                            $"index - index for move[0;{cs.Count - 1}]",
                             "side - enum(Left, Right, Up, Down)",
                             "number - uint",
                             "if invalid args - back"
@@ -235,30 +239,99 @@ namespace Project1
                 if (Validation.MoveValid(mes, cs.Count, out var index,
                     out var num, out var side))
                 {
-                    switch (side)
-                    {
-                        case Side.Left:
-                            var newX = Math.Max(cs[index].StartPoint.X - num, 1);
-                            cs[index].StartPoint = new ConsolePoint(newX, cs[index].StartPoint.Y);
-                            break;
-                        case Side.Right:
-                            cs[index].StartPoint += new ConsolePoint(num, 0);
-                            break;
-                        case Side.Up:
-                            var newY = Math.Max(cs[index].StartPoint.Y - num, Menu.menuH + 1);
-                            cs[index].StartPoint = new ConsolePoint(cs[index].StartPoint.X, newY);
-                            break;
-                        case Side.Down:
-                            cs[index].StartPoint += new ConsolePoint(0, num);
-                            break;
-                        default:
-                            break;
-                    }
-
+                    var el = cs[index];
+                    if (el is Rectangle or Circle)
+                        MovingForRectOrCircle(ref cs, index, num, side);
+                    else if (el is Line)
+                        MovingForLine(ref cs, index, num, side);
+                    else if (el is Triangle)
+                        MovingForTriangle(ref cs, index, num, side);
                     Repaint(cs);
                 }
             }
         }
+
+        private static void MovingForRectOrCircle(ref List<ConsoleShape> cs, int index,
+            int num, Side side)
+        {
+            switch (side)
+            {
+                case Side.Left:
+                    var newX = Math.Max(cs[index].StartPoint.X - num, 1);
+                    cs[index].StartPoint = new ConsolePoint(newX, cs[index].StartPoint.Y);
+                    break;
+                case Side.Right:
+                    cs[index].StartPoint += new ConsolePoint(num, 0);
+                    break;
+                case Side.Up:
+                    var newY = Math.Max(cs[index].StartPoint.Y - num, Menu.menuH + 1);
+                    cs[index].StartPoint = new ConsolePoint(cs[index].StartPoint.X, newY);
+                    break;
+                case Side.Down:
+                    cs[index].StartPoint += new ConsolePoint(0, num);
+                    break;
+                default:
+                    break;
+            }
+        }
+        private static void MovingForLine(ref List<ConsoleShape> cs, int index,
+            int num, Side side)
+        {
+            var el = cs[index];
+
+            switch (side)
+            {
+                case Side.Left:
+                    var minXInLine = Math.Min((el as Line).A.X, (el as Line).B.X);
+                    var change = minXInLine - num > 1 ? -num : -minXInLine + 1;
+                    (cs[index] as Line).ChangeForMoving(new ConsolePoint(change, 0));
+                    break;
+                case Side.Right:
+                    (cs[index] as Line).ChangeForMoving(new ConsolePoint(num, 0));
+                    break;
+                case Side.Up:
+                    var minYInLine = Math.Min((el as Line).A.Y, (el as Line).B.Y);
+                    change = minYInLine - num > Menu.menuH + 1 ? -num : -minYInLine + Menu.menuH + 1;
+                    (cs[index] as Line).ChangeForMoving(new ConsolePoint(0, change));
+                    break;
+                case Side.Down:
+                    (cs[index] as Line).ChangeForMoving(new ConsolePoint(0, num));
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private static void MovingForTriangle(ref List<ConsoleShape> cs, int index,
+            int num, Side side)
+        {
+            var el = cs[index];
+
+            switch (side)
+            {
+                case Side.Left:
+                    var minXInTri = Math.Min(Math.Min((el as Triangle).AP.X, (el as Triangle).BP.X),
+                        (el as Triangle).CP.X);
+                    var change = minXInTri - num > 1 ? -num : -minXInTri + 1;
+                    (cs[index] as Triangle).ChangeForMoving(new ConsolePoint(change, 0));
+                    break;
+                case Side.Right:
+                    (cs[index] as Triangle).ChangeForMoving(new ConsolePoint(num, 0));
+                    break;
+                case Side.Up:
+                    var minYInTri = Math.Min(Math.Min((el as Triangle).AP.Y, (el as Triangle).BP.Y),
+                        (el as Triangle).CP.Y);
+                    change = minYInTri - num > Menu.menuH + 1 ? -num : -minYInTri + Menu.menuH + 1;
+                    (cs[index] as Triangle).ChangeForMoving(new ConsolePoint(0, change));
+                    break;
+                case Side.Down:
+                    (cs[index] as Triangle).ChangeForMoving(new ConsolePoint(0, num));
+                    break;
+                default:
+                    break;
+            }
+        }
+
         private static bool CheckCount(List<ConsoleShape> cs)
         {
             if (cs.Count == 0)
