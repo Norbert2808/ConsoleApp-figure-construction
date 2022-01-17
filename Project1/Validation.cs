@@ -38,8 +38,9 @@ namespace Project1
             var b = GetLenght(cx, cy, ax, ay);
             var c = GetLenght(ax, ay, bx, by);
             // check rectangular triangle
-            if (Math.Round((a * a) - (b * b) + (c * c)) != 0 && Math.Round((a * a) + (b * b) - (c * c)) != 0
-                && Math.Round((a * a) + (c * c) - (b * b)) != 0)
+            var aa = Math.Round((a * a) - (b * b) + (c * c));
+            if (Math.Round((a * a) + (c * c) - (b * b)) != 0 && Math.Round((a * a) + (b * b) - (c * c)) != 0
+                && Math.Round((c * c) + (b * b) - (a * a)) != 0)
             {
                 return false;
             }
@@ -76,7 +77,7 @@ namespace Project1
                 return false;
             if (!UintValid(args[0], out var ax) || !UintValid(args[1], out var ay)
                 || !UintValid(args[2], out var bx) || !UintValid(args[3], out var by)
-                || !Enum.TryParse(args[5], true, out ConsoleColor color))
+                || !Enum.TryParse(args[4], true, out ConsoleColor color))
             {
                 return false;
             }
@@ -97,11 +98,18 @@ namespace Project1
             return int.TryParse(el, out res) && res >= 0;
         }
 
-        public static void ValidDrawing(char symbol)
+        private static readonly int _topBoundary = Menu.menuH + Menu.sceneH - 1;
+        private static readonly int _leftBoundary = Menu.menuW - 1;
+        public static void ValidDrawing(char symbol, bool ValidDrawing = true)
         {
+            if (!ValidDrawing)
+            {
+                Console.Write(symbol);
+                return;
+            }
+
             (var left, var top) = Console.GetCursorPosition();
-            if (top >= Menu.menuH + Menu.sceneH || top <= Menu.menuH
-                || left < 1 || left >= Menu.menuW)
+            if (top >= _topBoundary || left >= _leftBoundary)
             {
                 return;
             }

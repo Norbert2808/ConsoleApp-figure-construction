@@ -47,7 +47,7 @@
                     {
                         if (value <= rOut * rOut)
                         {
-                            Console.Write(Symbol);
+                            Validation.ValidDrawing(Symbol);
                             AreaValue++;
                             continue;
                         }
@@ -56,7 +56,7 @@
                     {
                         if (value <= rOut * rOut && value >= rIn * rIn)
                         {
-                            Console.Write(Symbol);
+                            Validation.ValidDrawing(Symbol);
                             AreaValue++;
                             PerimeterValue++;
                             continue;

@@ -68,7 +68,7 @@ namespace Project1.Shapes
             {
                 currentPos = new ConsolePoint(currentPos.X + x, currentPos.Y + y);
                 Console.SetCursorPosition(StartPoint.X + currentPos.X, StartPoint.Y + currentPos.Y);
-                Console.Write(Symbol);
+                Validation.ValidDrawing(Symbol);
                 PerimeterValue++;
             }
         }

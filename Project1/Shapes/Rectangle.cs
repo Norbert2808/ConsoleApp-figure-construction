@@ -5,6 +5,7 @@
         public int Width { get; set; }
         public int Height { get; set; }
         public bool Filling { get; set; }
+        public bool ValidDrawing { get; set; }
         private int AreaValue { get; set; }
         private int PerimeterValue { get; set; }
 
@@ -17,6 +18,7 @@
             Width = width;
             Height = height;
             Filling = filling;
+            ValidDrawing = true;
             AreaValue = Width * Height;
             PerimeterValue = 2 * (Width + Height);
         }
@@ -39,26 +41,27 @@
             var startY = StartPoint.Y;
             for (var i = 0; i < Width; i++)
             {
-                Console.Write(Symbol);
+                Validation.ValidDrawing(Symbol, ValidDrawing);
             }
             Console.WriteLine();
 
             for (var i = 1; i < Height - 1; i++)
             {
                 Console.SetCursorPosition(startX, Console.GetCursorPosition().Top);
-                Console.Write(Symbol);
+                Validation.ValidDrawing(Symbol, ValidDrawing);
                 for (var j = 1; j < Width - 1; j++)
                 {
                     if (Filling)
-                        Console.Write(Symbol);
+                        Validation.ValidDrawing(Symbol, ValidDrawing);
                 }
                 Console.SetCursorPosition(startX + Width - 1, startY + i);
-                Console.WriteLine(Symbol);
+                Validation.ValidDrawing(Symbol, ValidDrawing);
+                Console.WriteLine();
             }
             Console.SetCursorPosition(startX, Console.GetCursorPosition().Top);
             for (var i = 0; i < Width; i++)
             {
-                Console.Write(Symbol);
+                Validation.ValidDrawing(Symbol, ValidDrawing);
             }
             Console.WriteLine();
 

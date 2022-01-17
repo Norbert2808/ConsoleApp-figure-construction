@@ -20,11 +20,17 @@ namespace Project1
             Menu.sceneH = sceneH;
             startForShape = new ConsolePoint(1, menuH + 1);
             endForExit = new ConsolePoint(0, sceneH + menuH + 1);
-            ConsoleShape menuRect = new Rectangle('#', new ConsolePoint(0, 0), menuW, menuH, ConsoleColor.Blue);
+            var menuRect = new Rectangle('#', new ConsolePoint(0, 0), menuW, menuH, ConsoleColor.Blue)
+            {
+                ValidDrawing = false
+            };
             menuRect.Print();
             Console.SetCursorPosition(1, 0);
             Console.Write("MENU");
-            ConsoleShape sceneRect = new Rectangle('#', new ConsolePoint(0, menuH), menuW, sceneH, ConsoleColor.Blue);
+            var sceneRect = new Rectangle('#', new ConsolePoint(0, menuH), menuW, sceneH, ConsoleColor.Blue)
+            {
+                ValidDrawing = false
+            };
             sceneRect.Print();
             Console.SetCursorPosition(1, menuH);
             Console.Write("SCENE");
