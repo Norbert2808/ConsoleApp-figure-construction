@@ -1,3 +1,10 @@
-﻿
-Console.WriteLine("Hello World!");
-return 0;
+﻿using Project1;
+
+// At the start of the program please put fullscreen
+RunConsoleApp.Run();
+//Console.ReadKey();
+
+
+
+
+
