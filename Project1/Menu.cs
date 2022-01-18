@@ -1,5 +1,4 @@
-﻿
-using Project1.Shapes;
+﻿using Project1.Shapes;
 
 namespace Project1
 {
@@ -10,31 +9,36 @@ namespace Project1
         public static int menuW;
         public static int menuH;
         public static int sceneH;
-        public static void AddStartField(int menuW = 100, int menuH = 20, int sceneH = 30)
+
+        public static void AddStartField(int _menuW = 100, int _menuH = 20, int _sceneH = 30)
         {
             // for Windows
             // Console.WindowHeight = Console.LargestWindowHeight;
             // Console.WindowWidth = Console.LargestWindowWidth;
-            Menu.menuW = menuW;
-            Menu.menuH = menuH;
-            Menu.sceneH = sceneH;
-            startForShape = new ConsolePoint(1, menuH + 1);
-            endForExit = new ConsolePoint(0, sceneH + menuH + 1);
-            var menuRect = new Rectangle('#', new ConsolePoint(0, 0), menuW, menuH, ConsoleColor.Blue)
+
+            menuW = _menuW;
+            menuH = _menuH;
+            sceneH = _sceneH;
+            startForShape = new ConsolePoint(1, _menuH + 1);
+            endForExit = new ConsolePoint(0, _sceneH + _menuH + 1);
+
+            var menuRect = new Rectangle('#', new ConsolePoint(0, 0), _menuW, _menuH,
+                ConsoleColor.Blue, filling: false)
             {
                 ValidDrawing = false
             };
             menuRect.Print();
             Console.SetCursorPosition(1, 0);
             Console.Write("MENU");
-            var sceneRect = new Rectangle('#', new ConsolePoint(0, menuH), menuW, sceneH, ConsoleColor.Blue)
+
+            var sceneRect = new Rectangle('#', new ConsolePoint(0, _menuH), _menuW, _sceneH,
+                ConsoleColor.Blue, filling: false)
             {
                 ValidDrawing = false
             };
             sceneRect.Print();
-            Console.SetCursorPosition(1, menuH);
+            Console.SetCursorPosition(1, _menuH);
             Console.Write("SCENE");
-            Console.SetCursorPosition(1, 1);
         }
 
         public static void ClearMenu()

@@ -47,7 +47,7 @@
                     {
                         if (value <= rOut * rOut)
                         {
-                            Validation.ValidDrawing(Symbol);
+                            PaintValidation.Paint(Symbol);
                             AreaValue++;
                             if (value >= rIn * rIn)
                                 PerimeterValue++;
@@ -58,7 +58,7 @@
                     {
                         if (value <= rOut * rOut && value >= rIn * rIn)
                         {
-                            Validation.ValidDrawing(Symbol);
+                            PaintValidation.Paint(Symbol);
                             AreaValue++;
                             PerimeterValue++;
                             continue;
@@ -92,7 +92,7 @@
                     {
                         if (value <= rOut * rOut)
                         {
-                            Validation.ValidAddInList(Symbol, ref scene, ref posX, ref posY);
+                            PaintValidation.AddInList(Symbol, ref scene, ref posX, ref posY);
                             continue;
                         }
                     }
@@ -100,7 +100,7 @@
                     {
                         if (value <= rOut * rOut && value >= rIn * rIn)
                         {
-                            Validation.ValidAddInList(Symbol, ref scene, ref posX, ref posY);
+                            PaintValidation.AddInList(Symbol, ref scene, ref posX, ref posY);
                             continue;
                         }
                     }

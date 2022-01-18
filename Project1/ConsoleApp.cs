@@ -1,9 +1,9 @@
-﻿
+﻿using Project1.Helpers;
 using Project1.Shapes;
 
 namespace Project1
 {
-    public static class RunConsoleApp
+    internal static class ConsoleApp
     {
 
         public static void Run()
@@ -21,22 +21,22 @@ namespace Project1
                 switch (key)
                 {
                     case "1":
-                        Helpers.AddHelper(ref consoleShapes);
+                        AddHelper.Helper(ref consoleShapes);
                         break;
                     case "2":
-                        Helpers.DeleteHelper(ref consoleShapes);
+                        DeleteHelper.Helper(ref consoleShapes);
                         break;
                     case "3":
-                        Helpers.MoveHelper(ref consoleShapes);
+                        MoveHelper.Helper(ref consoleShapes);
                         break;
                     case "4":
-                        Helpers.SortHelper(ref consoleShapes);
+                        SortHelper.Helper(ref consoleShapes);
                         break;
                     case "5":
-                        Helpers.SaveHelper(consoleShapes);
+                        SaveHelper.Helper(consoleShapes);
                         break;
                     case "6":
-                        Helpers.StatisticsHelper(consoleShapes);
+                        StatisticsHelper.Helper(consoleShapes);
                         break;
                     default:
                         key = "exit";
@@ -46,7 +46,7 @@ namespace Project1
             } while (key != "exit");
         }
 
-        public static void StartMenu()
+        private static void StartMenu()
         {
             var args = new string[]
             {

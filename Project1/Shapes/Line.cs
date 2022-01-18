@@ -33,6 +33,7 @@ namespace Project1.Shapes
 
             var x = B.X - A.X;
             var y = B.Y - A.Y;
+            // 8 cases of possible movement
             if (x > 0)
             {
                 if (y > 0)
@@ -60,18 +61,19 @@ namespace Project1.Shapes
             }
             Console.ForegroundColor = startColor;
         }
-        public void CreateLine(int x, int y)
+
+        private void CreateLine(int x, int y)
         {
             PerimeterValue = 0;
             var currentPos = A;
             Console.SetCursorPosition(StartPoint.X + currentPos.X, StartPoint.Y + currentPos.Y);
-            Validation.ValidDrawing(Symbol);
+            PaintValidation.Paint(Symbol);
             PerimeterValue++;
             while (currentPos != B)
             {
                 currentPos = new ConsolePoint(currentPos.X + x, currentPos.Y + y);
                 Console.SetCursorPosition(StartPoint.X + currentPos.X, StartPoint.Y + currentPos.Y);
-                Validation.ValidDrawing(Symbol);
+                PaintValidation.Paint(Symbol);
                 PerimeterValue++;
             }
         }
@@ -81,20 +83,22 @@ namespace Project1.Shapes
             A += point;
             B += point;
         }
-        public void AddInList(int x, int y, ref int posX, ref int posY, ref List<List<char>> scene)
+
+        private void AddInList(int x, int y, ref int posX, ref int posY, ref List<List<char>> scene)
         {
             var currentPos = A;
             posX = StartPoint.X + currentPos.X;
             posY = StartPoint.Y + currentPos.Y;
-            Validation.ValidAddInList(Symbol, ref scene, ref posX, ref posY);
+            PaintValidation.AddInList(Symbol, ref scene, ref posX, ref posY);
             while (currentPos != B)
             {
                 currentPos = new ConsolePoint(currentPos.X + x, currentPos.Y + y);
                 posX = StartPoint.X + currentPos.X;
                 posY = StartPoint.Y + currentPos.Y;
-                Validation.ValidAddInList(Symbol, ref scene, ref posX, ref posY);
+                PaintValidation.AddInList(Symbol, ref scene, ref posX, ref posY);
             }
         }
+
         public override void AddInListForFile(ref List<List<char>> scene)
         {
             var posX = Menu.startForShape.X;

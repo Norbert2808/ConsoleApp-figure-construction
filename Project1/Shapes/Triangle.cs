@@ -39,7 +39,8 @@ namespace Project1.Shapes
 
         public override int Perimeter()
         {
-            return A.Perimeter() + B.Perimeter() + C.Perimeter();
+            // vertices are taken into account 2 times
+            return A.Perimeter() + B.Perimeter() + C.Perimeter() - 3;
         }
 
         public override void Print()
@@ -51,6 +52,7 @@ namespace Project1.Shapes
             C.Symbol = Symbol;
             C.Print();
         }
+
         public void ChangeForMoving(ConsolePoint point)
         {
             AP += point;
