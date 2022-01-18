@@ -8,10 +8,9 @@ namespace Project1
 
         public static void Run()
         {
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
-
             Menu.AddStartField();
             var consoleShapes = new List<ConsoleShape>();
+
             string key;
             do
             {
@@ -36,6 +35,9 @@ namespace Project1
                     case "5":
                         Helpers.SaveHelper(consoleShapes);
                         break;
+                    case "6":
+                        Helpers.StatisticsHelper(consoleShapes);
+                        break;
                     default:
                         key = "exit";
                         Console.SetCursorPosition(Menu.endForExit.X, Menu.endForExit.Y);
@@ -54,6 +56,7 @@ namespace Project1
         "3 - move shape",
         "4 - sort shape",
         "5 - save in file scene",
+        "6 - statistics",
         "otherwise - stop program"
             };
             Menu.ClientMenu(args);

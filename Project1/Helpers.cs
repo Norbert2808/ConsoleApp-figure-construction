@@ -87,7 +87,7 @@ namespace Project1
                         Rectangle rectangle;
                         if (addRec == "d")
                         {
-                            rectangle = new Rectangle(symbol, 
+                            rectangle = new Rectangle(symbol,
                                 Menu.startForShape + new ConsolePoint(30, 0), filling: true);
                             rectangle.Print();
                             cs.Add(rectangle);
@@ -262,31 +262,40 @@ namespace Project1
 
         }
 
+        public static void StatisticsHelper(List<ConsoleShape> cs)
+        {
+            if (!CheckCount(cs))
+            {
+                AddStatistics(cs);
+            }
+        }
+
         private static void AddStatistics(List<ConsoleShape> cs)
         {
             Menu.ClearMenu();
-            var ar = new string[Math.Min(cs.Count + 2, Menu.menuH - 6)];
+            var ar = new string[Math.Min(cs.Count + 3, Menu.menuH - 3)];
             int i;
             ar[0] = "---STATISTICS---";
-            for (i = 1; i < cs.Count + 1 && i < ar.Length + 1; i++)
+            for (i = 0; i < cs.Count && i < ar.Length - 3; i++)
             {
                 var typeShape = string.Empty;
-                if (cs[i - 1] is Circle)
+                if (cs[i] is Circle)
                     typeShape = nameof(Circle);
-                else if (cs[i - 1] is Rectangle)
+                else if (cs[i] is Rectangle)
                     typeShape = nameof(Rectangle);
-                else if (cs[i - 1] is Triangle)
+                else if (cs[i] is Triangle)
                     typeShape = nameof(Triangle);
-                else if (cs[i - 1] is Line)
+                else if (cs[i] is Line)
                     typeShape = nameof(Line);
-                ar[i] = $"{i - 1} -- {cs[i - 1].Color} {typeShape}, area - {cs[i - 1].Area()}, " +
-                    $"perimeter - {cs[i - 1].Perimeter()}";
+                ar[i + 1] = $"{i} -- {cs[i].Color} {typeShape}, area - {cs[i].Area()}, " +
+                    $"perimeter - {cs[i].Perimeter()}";
             }
-            if (cs.Count > Menu.menuH - 5)
+            i++;
+            if (cs.Count > Menu.menuH - 6)
             {
                 ar[i] = "...";
-                i++;
             }
+            i++;
             ar[i] = "Press to continue...";
             Menu.ClientMenu(ar);
             _ = Console.ReadLine();
