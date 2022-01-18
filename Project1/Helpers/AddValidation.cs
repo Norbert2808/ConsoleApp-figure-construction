@@ -65,7 +65,7 @@ namespace Project1.Helpers
             if (args.Length != 5)
                 return false;
             if (!UintValid(args[0], out var startX) || !UintValid(args[1], out var startY)
-                || !UintValid(args[2], out var radius) || !Enum.TryParse(args[3], true, out ConsoleColor color)
+                || !UintValid(args[2], out var radius, 1, 25) || !Enum.TryParse(args[3], true, out ConsoleColor color)
                 || !bool.TryParse(args[4], out var filling))
             {
                 return false;
@@ -102,9 +102,9 @@ namespace Project1.Helpers
             return Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));
         }
 
-        public static bool UintValid(string el, out int res)
+        public static bool UintValid(string el, out int res, int min = 0, int max = 100)
         {
-            return int.TryParse(el, out res) && res >= 0;
+            return int.TryParse(el, out res) && res >= min && res <= max;
         }
     }
 }

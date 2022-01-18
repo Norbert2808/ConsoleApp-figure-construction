@@ -11,9 +11,9 @@ namespace Project1
             X = x;
             Y = y;
         }
+
         public static bool operator ==(ConsolePoint first, ConsolePoint second) => first.X == second.X && first.Y == second.Y;
         public static bool operator !=(ConsolePoint first, ConsolePoint second) => !(first == second);
-
         public static ConsolePoint operator +(ConsolePoint first, ConsolePoint second) =>
             new(first.X + second.X, first.Y + second.Y);
 

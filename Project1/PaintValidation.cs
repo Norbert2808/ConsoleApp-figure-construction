@@ -4,7 +4,7 @@ namespace Project1
     internal static class PaintValidation
     {
         private static readonly int _downBoundary = Menu.menuH + Menu.sceneH - 1;
-        private static readonly int _rightBoundary = Menu.menuW - 2;
+        private static readonly int _rightBoundary = Menu.menuW - 1;
 
         public static void Paint(char symbol, bool ValidDrawing = true)
         {
@@ -22,7 +22,7 @@ namespace Project1
         public static void AddInList(char symbol, ref List<List<char>> scene, ref int posX, ref int posY)
         {
             if (posY < _downBoundary && posX < _rightBoundary)
-                scene[posY - Menu.startForShape.Y][posX++] = symbol;
+                scene[posY - Menu.startForShape.Y][posX++ - 1] = symbol;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Project1.Helpers
                 Menu.ClientMenu(args);
 
                 var mes = Console.ReadLine();
-                if (AddValidation.UintValid(mes, out var index) && index < cs.Count)
+                if (AddValidation.UintValid(mes, out var index, cs.Count - 1))
                 {
                     cs.RemoveAt(index);
                     Repaint(cs);

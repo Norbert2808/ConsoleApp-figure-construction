@@ -23,7 +23,7 @@ namespace Project1.Helpers
                             "Enter \"index, side, number\"",
                             $"index - index for move[0;{cs.Count - 1}]",
                             "side - enum(Left, Right, Up, Down)",
-                            "number - uint",
+                            "number - uint(>= 0 && <= 100)",
                             "if invalid args - back"
                             };
                 Menu.ClientMenu(args);
@@ -133,7 +133,7 @@ namespace Project1.Helpers
             side = Side.Left;
 
             var args = el.Split(", ");
-            return args.Length == 3 && AddValidation.UintValid(args[0], out index) && index < count &&
+            return args.Length == 3 && AddValidation.UintValid(args[0], out index, count - 1) &&
                 AddValidation.UintValid(args[2], out number) && Enum.TryParse(args[1], true, out side);
         }
     }

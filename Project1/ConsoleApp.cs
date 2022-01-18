@@ -55,7 +55,7 @@ namespace Project1
         "2 - delete shape",
         "3 - move shape",
         "4 - sort shape",
-        "5 - save in file scene",
+        "5 - save scene in file",
         "6 - statistics",
         "otherwise - stop program"
             };

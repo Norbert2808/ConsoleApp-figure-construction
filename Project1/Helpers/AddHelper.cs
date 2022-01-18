@@ -44,7 +44,8 @@ namespace Project1.Helpers
                             "startPos - left top point of the circumscribed square",
                             "down - positive y-axis, right - positive x-axis",
                             "",
-                            "startPosX, startPosY, radius - uint",
+                            "startPosX, startPosY - uint(>= 0 && <= 100)",
+                            "radius - uint(>= 1 && <= 25)",
                             "color - enum(Blue, Red, Gray, Magenta, Yellow, DarkGray...)",
                             "filling - bool(true, false)",
                             "if invalid args - back"
@@ -76,7 +77,7 @@ namespace Project1.Helpers
                             "down - positive y-axis, right - positive x-axis",
                             "startPos - left top point",
                             "",
-                            "startPosX, startPosY, width, height - uint",
+                            "startPosX, startPosY, width, height - uint(>= 0 && <= 100)",
                             "color - enum(Blue, Red, Gray, Magenta, Yellow, DarkGray...)",
                             "filling - bool(true, false)",
                             "if invalid args - back"
@@ -107,7 +108,7 @@ namespace Project1.Helpers
                             "Or enter \"AX, AY, BX, BY, CX, CY, color\"",
                             "down - positive y-axis, right - positive x-axis",
                             "",
-                            "AX, AY, BX, BY, CX, CY - uint",
+                            "AX, AY, BX, BY, CX, CY - uint(>= 0 && <= 100)",
                             "color - enum(Blue, Red, Gray, Magenta, Yellow, DarkGray...)",
                             "if invalid args - back"
                         };
@@ -140,7 +141,7 @@ namespace Project1.Helpers
                             "Or enter \"AX, AY, BX, BY, color\"",
                             "down - positive y-axis, right - positive x-axis",
                             "",
-                            "AX, AY, BX, BY - uint",
+                            "AX, AY, BX, BY - uint(>= 0 && <= 100)",
                             "color - enum(Blue, Red, Gray, Magenta, Yellow, DarkGray...)",
                             "if invalid args - back"
                         };
