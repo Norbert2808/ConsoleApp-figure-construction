@@ -133,7 +133,7 @@ namespace Project1.Helpers
             side = Side.Left;
 
             var args = el.Split(", ");
-            return args.Length == 3 && AddValidation.UintValid(args[0], out index, count - 1) &&
+            return args.Length == 3 && AddValidation.UintValid(args[0], out index, max: count - 1) &&
                 AddValidation.UintValid(args[2], out number) && Enum.TryParse(args[1], true, out side);
         }
     }
