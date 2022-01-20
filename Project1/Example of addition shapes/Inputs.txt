@@ -17,8 +17,8 @@ Triangles:
 5 - 50, 10, 50, 20, 60, 20, white, false
 6 - 60, 10, 70, 10, 70, 20, red, true
 7 - 60, 10, 70, 10, 70, 20, white, false
-8 - 80, 10, 80, 20, 90, 20, red, true 
-9 - 80, 10, 80, 20, 90, 20, white, false
+8 - 80, 10, 90, 10, 80, 20, red, true
+9 - 80, 10, 90, 10, 80, 20, white, false
 
 Lines:
 0 - 0, 0, 10, 10, red
