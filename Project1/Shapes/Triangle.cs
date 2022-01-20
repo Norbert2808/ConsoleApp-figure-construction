@@ -82,7 +82,7 @@ namespace Project1.Shapes
                             var posY = upperPoint.Y + i;
                             for (var j = 0; j < (i * 2) + 1; j++)
                             {
-                                WtiteSymbolIncrementAreaAddPoint(startPosX + j, posY);
+                                WtiteSymbolIncrementAreaAddPoint(StartPoint.X + startPosX + j, StartPoint.Y + posY);
                             }
                         }
                     }
@@ -100,7 +100,7 @@ namespace Project1.Shapes
                                 var posY = upperPoint.Y + i;
                                 for (var j = 0; j < i + 1; j++)
                                 {
-                                    WtiteSymbolIncrementAreaAddPoint(startPosX + j, posY);
+                                    WtiteSymbolIncrementAreaAddPoint(StartPoint.X + startPosX + j, StartPoint.Y + posY);
                                 }
                             }
                         }
@@ -113,7 +113,7 @@ namespace Project1.Shapes
                                 var posY = upperPoint.Y + i;
                                 for (var j = 0; j < i + 1; j++)
                                 {
-                                    WtiteSymbolIncrementAreaAddPoint(startPosX + j, posY);
+                                    WtiteSymbolIncrementAreaAddPoint(StartPoint.X + startPosX + j, StartPoint.Y + posY);
                                 }
                             }
                         }
@@ -134,7 +134,7 @@ namespace Project1.Shapes
                             var posY = lowerPoint.Y - i;
                             for (var j = 0; j < (i * 2) + 1; j++)
                             {
-                                WtiteSymbolIncrementAreaAddPoint(startPosX + j, posY);
+                                WtiteSymbolIncrementAreaAddPoint(StartPoint.X + startPosX + j, StartPoint.Y + posY);
                             }
                         }
                     }
@@ -152,7 +152,7 @@ namespace Project1.Shapes
                                 var posY = lowerPoint.Y - i;
                                 for (var j = 0; j < i + 1; j++)
                                 {
-                                    WtiteSymbolIncrementAreaAddPoint(startPosX + j, posY);
+                                    WtiteSymbolIncrementAreaAddPoint(StartPoint.X + startPosX + j, StartPoint.Y + posY);
                                 }
                             }
                         }
