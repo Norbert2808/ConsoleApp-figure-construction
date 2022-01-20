@@ -19,10 +19,10 @@ namespace Project1
                 Console.Write(symbol);
         }
 
-        public static void AddInList(char symbol, ref List<List<char>> scene, ref int posX, ref int posY)
+        public static void AddInList(char symbol, ref List<List<char>> scene, int posX, int posY)
         {
             if (posY < _downBoundary && posX < _rightBoundary)
-                scene[posY - Menu.startForShape.Y][posX++ - 1] = symbol;
+                scene[posY - Menu.startForShape.Y][posX - 1] = symbol;
         }
     }
 }

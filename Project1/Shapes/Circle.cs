@@ -31,8 +31,11 @@
         {
             var startColor = Console.ForegroundColor;
             Console.ForegroundColor = Color;
+            Points = new List<ConsolePoint>() { };
+
             Console.SetCursorPosition(StartPoint.X, StartPoint.Y);
             var thickness = 0.5;
+            int left, top;
             var rIn = Radius - thickness;
             var rOut = Radius + thickness;
             AreaValue = 0;
@@ -47,6 +50,8 @@
                     {
                         if (value <= rOut * rOut)
                         {
+                            (left, top) = Console.GetCursorPosition();
+                            Points.Add(new ConsolePoint(left, top));
                             PaintValidation.Paint(Symbol);
                             AreaValue++;
                             if (value >= rIn * rIn)
@@ -58,13 +63,15 @@
                     {
                         if (value <= rOut * rOut && value >= rIn * rIn)
                         {
+                            (left, top) = Console.GetCursorPosition();
+                            Points.Add(new ConsolePoint(left, top));
                             PaintValidation.Paint(Symbol);
                             AreaValue++;
                             PerimeterValue++;
                             continue;
                         }
                     }
-                    var (left, top) = Console.GetCursorPosition();
+                    (left, top) = Console.GetCursorPosition();
                     Console.SetCursorPosition(left + 1, top);
 
                 }
@@ -72,43 +79,6 @@
                 Console.SetCursorPosition(StartPoint.X, Console.GetCursorPosition().Top);
             }
             Console.ForegroundColor = startColor;
-        }
-
-        public override void AddInListForFile(ref List<List<char>> scene)
-        {
-            var posX = StartPoint.X;
-            var posY = StartPoint.Y;
-
-            var thickness = 0.5;
-            var rIn = Radius - thickness;
-            var rOut = Radius + thickness;
-
-            for (var y = Radius; y >= -Radius; --y)
-            {
-                for (var x = -Radius; x < rOut; x += 0.5)
-                {
-                    var value = (x * x) + (y * y);
-                    if (Filling)
-                    {
-                        if (value <= rOut * rOut)
-                        {
-                            PaintValidation.AddInList(Symbol, ref scene, ref posX, ref posY);
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        if (value <= rOut * rOut && value >= rIn * rIn)
-                        {
-                            PaintValidation.AddInList(Symbol, ref scene, ref posX, ref posY);
-                            continue;
-                        }
-                    }
-                    posX++;
-                }
-                posY++;
-                posX = StartPoint.X;
-            }
         }
 
 
