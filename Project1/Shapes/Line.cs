@@ -16,6 +16,7 @@ namespace Project1.Shapes
             A = a;
             B = b;
         }
+
         public override int Area()
         {
             return PerimeterValue;
@@ -65,15 +66,19 @@ namespace Project1.Shapes
         private void CreateLine(int x, int y)
         {
             PerimeterValue = 0;
+            Points = new List<ConsolePoint>() { };
+
             var currentPos = A;
             Console.SetCursorPosition(StartPoint.X + currentPos.X, StartPoint.Y + currentPos.Y);
             PaintValidation.Paint(Symbol);
+            Points.Add(new ConsolePoint(StartPoint.X + currentPos.X, StartPoint.Y + currentPos.Y));
             PerimeterValue++;
             while (currentPos != B)
             {
                 currentPos = new ConsolePoint(currentPos.X + x, currentPos.Y + y);
                 Console.SetCursorPosition(StartPoint.X + currentPos.X, StartPoint.Y + currentPos.Y);
                 PaintValidation.Paint(Symbol);
+                Points.Add(new ConsolePoint(StartPoint.X + currentPos.X, StartPoint.Y + currentPos.Y));
                 PerimeterValue++;
             }
         }
@@ -84,53 +89,5 @@ namespace Project1.Shapes
             B += point;
         }
 
-        private void AddInList(int x, int y, ref int posX, ref int posY, ref List<List<char>> scene)
-        {
-            var currentPos = A;
-            posX = StartPoint.X + currentPos.X;
-            posY = StartPoint.Y + currentPos.Y;
-            PaintValidation.AddInList(Symbol, ref scene, ref posX, ref posY);
-            while (currentPos != B)
-            {
-                currentPos = new ConsolePoint(currentPos.X + x, currentPos.Y + y);
-                posX = StartPoint.X + currentPos.X;
-                posY = StartPoint.Y + currentPos.Y;
-                PaintValidation.AddInList(Symbol, ref scene, ref posX, ref posY);
-            }
-        }
-
-        public override void AddInListForFile(ref List<List<char>> scene)
-        {
-            var posX = Menu.startForShape.X;
-            var posY = Menu.startForShape.Y;
-
-            var x = B.X - A.X;
-            var y = B.Y - A.Y;
-            if (x > 0)
-            {
-                if (y > 0)
-                    AddInList(1, 1, ref posX, ref posY, ref scene);
-                else if (y < 0)
-                    AddInList(1, -1, ref posX, ref posY, ref scene);
-                else
-                    AddInList(1, 0, ref posX, ref posY, ref scene);
-            }
-            else if (x < 0)
-            {
-                if (y > 0)
-                    AddInList(-1, 1, ref posX, ref posY, ref scene);
-                else if (y < 0)
-                    AddInList(-1, -1, ref posX, ref posY, ref scene);
-                else
-                    AddInList(-1, 0, ref posX, ref posY, ref scene);
-            }
-            else
-            {
-                if (y > 0)
-                    AddInList(0, 1, ref posX, ref posY, ref scene);
-                else if (y < 0)
-                    AddInList(0, -1, ref posX, ref posY, ref scene);
-            }
-        }
     }
 }

@@ -10,8 +10,6 @@ namespace Project1.Shapes
         public ConsolePoint BP { get; set; }
         public ConsolePoint CP { get; set; }
         public bool Filling { get; set; }
-        public int HypotenuseLenght { get; set; }
-        public int CathetusLenght { get; set; }
         private int AreaValue { get; set; }
         private int PerimeterValue { get; set; }
 
@@ -31,6 +29,8 @@ namespace Project1.Shapes
 
             // vertices are taken into account 2 times
             PerimeterValue = A.Perimeter() + B.Perimeter() + C.Perimeter() - 3;
+            if (!Filling)
+                AreaValue = PerimeterValue;
         }
 
         public override int Area()
@@ -45,25 +45,26 @@ namespace Project1.Shapes
 
         public override void Print()
         {
+            Points = new List<ConsolePoint>() { };
+
             if (!Filling)
             {
                 A.Symbol = Symbol; // for rePrint after delete
-                A.Print();
                 B.Symbol = Symbol;
-                B.Print();
                 C.Symbol = Symbol;
+                A.Print();
+                B.Print();
                 C.Print();
+                Points = A.Points.Concat(B.Points.Concat(C.Points).ToList()).ToList();
             }
             else
             {
                 var startColor = Console.ForegroundColor;
                 Console.ForegroundColor = Color;
 
-                AreaValue = Perimeter();
+                AreaValue = 0;
                 var maxY = Math.Max(Math.Max(AP.Y, BP.Y), CP.Y);
                 var minY = Math.Min(Math.Min(AP.Y, BP.Y), CP.Y);
-                var maxX = Math.Max(Math.Max(AP.X, BP.X), CP.X);
-                var minX = Math.Min(Math.Min(AP.X, BP.X), CP.X);
                 var points = new List<ConsolePoint>() { AP, BP, CP };
 
                 if (points.Where(x => x.Y == maxY).Count() == 2)
@@ -81,9 +82,7 @@ namespace Project1.Shapes
                             var posY = upperPoint.Y + i;
                             for (var j = 0; j < (i * 2) + 1; j++)
                             {
-                                Console.SetCursorPosition(StartPoint.X + startPosX + j, StartPoint.Y + posY);
-                                PaintValidation.Paint(Symbol);
-                                AreaValue++;
+                                WtiteSymbolIncrementAreaAddPoint(startPosX + j, posY);
                             }
                         }
                     }
@@ -91,35 +90,30 @@ namespace Project1.Shapes
                     {
                         // cathetus is lower
                         var pointWithAnotherX = points.FirstOrDefault(x => x.X != upperPoint.X);
+                        var steps = pointWithAnotherX.Y - upperPoint.Y + 1;
                         if (pointWithAnotherX.X > upperPoint.X)
                         {
                             // point with another X is right
-                            var steps = pointWithAnotherX.Y - upperPoint.Y + 1;
                             for (var i = 0; i < steps; i++)
                             {
                                 var startPosX = upperPoint.X;
                                 var posY = upperPoint.Y + i;
                                 for (var j = 0; j < i + 1; j++)
                                 {
-                                    Console.SetCursorPosition(StartPoint.X + startPosX + j, StartPoint.Y + posY);
-                                    PaintValidation.Paint(Symbol);
-                                    AreaValue++;
+                                    WtiteSymbolIncrementAreaAddPoint(startPosX + j, posY);
                                 }
                             }
                         }
                         else
                         {
                             // point with another X is left
-                            var steps = pointWithAnotherX.Y - upperPoint.Y + 1;
                             for (var i = 0; i < steps; i++)
                             {
                                 var startPosX = upperPoint.X - i;
                                 var posY = upperPoint.Y + i;
                                 for (var j = 0; j < i + 1; j++)
                                 {
-                                    Console.SetCursorPosition(StartPoint.X + startPosX + j, StartPoint.Y + posY);
-                                    PaintValidation.Paint(Symbol);
-                                    AreaValue++;
+                                    WtiteSymbolIncrementAreaAddPoint(startPosX + j, posY);
                                 }
                             }
                         }
@@ -140,9 +134,7 @@ namespace Project1.Shapes
                             var posY = lowerPoint.Y - i;
                             for (var j = 0; j < (i * 2) + 1; j++)
                             {
-                                Console.SetCursorPosition(StartPoint.X + startPosX + j, StartPoint.Y + posY);
-                                PaintValidation.Paint(Symbol);
-                                AreaValue++;
+                                WtiteSymbolIncrementAreaAddPoint(startPosX + j, posY);
                             }
                         }
                     }
@@ -150,35 +142,30 @@ namespace Project1.Shapes
                     {
                         // cathetus is upper
                         var pointWithAnotherX = points.FirstOrDefault(x => x.X != lowerPoint.X);
+                        var steps = lowerPoint.Y - pointWithAnotherX.Y + 1;
                         if (pointWithAnotherX.X > lowerPoint.X)
                         {
                             // point with another X is right
-                            var steps = lowerPoint.Y - pointWithAnotherX.Y + 1;
                             for (var i = 0; i < steps; i++)
                             {
                                 var startPosX = lowerPoint.X;
                                 var posY = lowerPoint.Y - i;
                                 for (var j = 0; j < i + 1; j++)
                                 {
-                                    Console.SetCursorPosition(StartPoint.X + startPosX + j, StartPoint.Y + posY);
-                                    PaintValidation.Paint(Symbol);
-                                    AreaValue++;
+                                    WtiteSymbolIncrementAreaAddPoint(startPosX + j, posY);
                                 }
                             }
                         }
                         else
                         {
                             // point with another X is left
-                            var steps = lowerPoint.Y - pointWithAnotherX.Y + 1;
                             for (var i = 0; i < steps; i++)
                             {
                                 var startPosX = lowerPoint.X - i;
                                 var posY = lowerPoint.Y - i;
                                 for (var j = 0; j < i + 1; j++)
                                 {
-                                    Console.SetCursorPosition(StartPoint.X + startPosX + j, StartPoint.Y + posY);
-                                    PaintValidation.Paint(Symbol);
-                                    AreaValue++;
+                                    WtiteSymbolIncrementAreaAddPoint(StartPoint.X + startPosX + j, StartPoint.Y + posY);
                                 }
                             }
                         }
@@ -186,6 +173,14 @@ namespace Project1.Shapes
                 }
                 Console.ForegroundColor = startColor;
             }
+        }
+
+        private void WtiteSymbolIncrementAreaAddPoint(int x, int y)
+        {
+            Console.SetCursorPosition(x, y);
+            PaintValidation.Paint(Symbol);
+            AreaValue++;
+            Points.Add(new ConsolePoint(x, y));
         }
 
         public void ChangeForMoving(ConsolePoint point)
@@ -196,16 +191,6 @@ namespace Project1.Shapes
             A = new Line(Symbol, StartPoint, AP, BP, Color);
             B = new Line(Symbol, StartPoint, BP, CP, Color);
             C = new Line(Symbol, StartPoint, CP, AP, Color);
-        }
-
-        public override void AddInListForFile(ref List<List<char>> scene)
-        {
-            A.Symbol = Symbol;
-            A.AddInListForFile(ref scene);
-            B.Symbol = Symbol;
-            B.AddInListForFile(ref scene);
-            C.Symbol = Symbol;
-            C.AddInListForFile(ref scene);
         }
     }
 }
