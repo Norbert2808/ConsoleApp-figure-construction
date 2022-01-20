@@ -105,11 +105,12 @@ namespace Project1.Helpers
                             "Add Triangle",
                             "You can only add a right-angled isosceles triangle",
                             "Enter \"d\" for default",
-                            "Or enter \"AX, AY, BX, BY, CX, CY, color\"",
+                            "Or enter \"AX, AY, BX, BY, CX, CY, color, filling\"",
                             "down - positive y-axis, right - positive x-axis",
                             "",
                             "AX, AY, BX, BY, CX, CY - uint(>= 0 && <= 100)",
                             "color - enum(Blue, Red, Gray, Magenta, Yellow, DarkGray...)",
+                            "filling - bool(true, false)",
                             "if invalid args - back"
                         };
                         Menu.ClientMenu(args);

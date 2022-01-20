@@ -27,12 +27,12 @@ namespace Project1.Helpers
             tri = default;
 
             var args = el.Split(", ");
-            if (args.Length != 7)
+            if (args.Length != 8)
                 return false;
             if (!UintValid(args[0], out var ax) || !UintValid(args[1], out var ay)
                 || !UintValid(args[2], out var bx) || !UintValid(args[3], out var by)
                 || !UintValid(args[4], out var cx) || !UintValid(args[5], out var cy)
-                || !Enum.TryParse(args[6], true, out ConsoleColor color))
+                || !Enum.TryParse(args[6], true, out ConsoleColor color) || !bool.TryParse(args[7], out var filling))
             {
                 return false;
             }
@@ -53,7 +53,7 @@ namespace Project1.Helpers
                 return false;
 
             tri = new Triangle(symbol, Menu.startForShape, new ConsolePoint(ax, ay), new ConsolePoint(bx, by),
-                new ConsolePoint(cx, cy), color);
+                new ConsolePoint(cx, cy), color, filling);
             return true;
         }
 
